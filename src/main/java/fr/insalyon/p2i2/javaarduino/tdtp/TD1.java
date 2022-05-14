@@ -32,7 +32,7 @@ public class TD1 {
     private PreparedStatement insertMesureStatement = null;
     private PreparedStatement selectMesuresStatement = null;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         System.out.println("Début du TD1");
 
@@ -43,15 +43,15 @@ public class TD1 {
             // Partie 2
             // System.out.println("Début de la Partie 2");
             // td1.sommeDepuisClavier();
-            // td1.lireFichier("./JavaArduino/fichiers/input/mesures-input.txt");
-            // td1.ecrireFichier("./JavaArduino/fichiers/output");
+            // td1.lireFichier("./fichiers/input/mesures-input.txt");
+            // td1.ecrireFichier("./fichiers/output");
             // System.out.println("Fin de la Partie 2");
 
             // Partie 3
             System.out.println("Début de la Partie 3");
             td1.connexionBD();
             td1.creerRequetesParametrees();
-            td1.lireMesuresDepuisFichier("./JavaArduino/fichiers/input/mesures-input.txt");
+            td1.lireMesuresDepuisFichier("./fichiers/input/mesures-input.txt");
 
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             td1.ecrireMesures(
@@ -61,7 +61,7 @@ public class TD1 {
                     formatDate.parse("08/05/2020"));
 
             td1.ecrireMesuresDansFichier(
-                    "./JavaArduino/fichiers/output",
+                    "./fichiers/output",
                     1,
                     formatDate.parse("01/05/2020"),
                     formatDate.parse("08/05/2020"));
