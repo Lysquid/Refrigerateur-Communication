@@ -51,21 +51,21 @@ public class Projet {
             System.out.println("Début de la Partie 3");
             projet.connexionBD();
             projet.creerRequetesParametrees();
-            projet.lireMesuresDepuisFichier("./fichiers/input/mesures-input.txt");
+            // projet.lireMesuresDepuisFichier("./fichiers/input/mesures-input.txt");
 
-            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-            projet.ecrireMesures(
-                    new PrintWriter(System.out, true),
-                    1,
-                    formatDate.parse("01/05/2020"),
-                    formatDate.parse("08/05/2020"));
+            // SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+            // projet.ecrireMesures(
+            // new PrintWriter(System.out, true),
+            // 1,
+            // formatDate.parse("01/05/2020"),
+            // formatDate.parse("08/05/2020"));
 
-            projet.ecrireMesuresDansFichier(
-                    "./fichiers/output",
-                    1,
-                    formatDate.parse("01/05/2020"),
-                    formatDate.parse("08/05/2020"));
-            System.out.println("Fin de la Partie 3");
+            // projet.ecrireMesuresDansFichier(
+            // "./fichiers/output",
+            // 1,
+            // formatDate.parse("01/05/2020"),
+            // formatDate.parse("08/05/2020"));
+            // System.out.println("Fin de la Partie 3");
 
         } catch (Exception ex) {
             // ex.printStackTrace(System.err);
