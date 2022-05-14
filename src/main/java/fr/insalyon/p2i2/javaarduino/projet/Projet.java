@@ -43,8 +43,8 @@ public class Projet {
             // Partie 2
             // System.out.println("Début de la Partie 2");
             // td1.sommeDepuisClavier();
-            // td1.lireFichier("./fichiers/input/mesures-input.txt");
-            // td1.ecrireFichier("./fichiers/output");
+            // td1.lireFichier("./JavaArduino/fichiers/input/mesures-input.txt");
+            // td1.ecrireFichier("./JavaArduino/fichiers/output");
             // System.out.println("Fin de la Partie 2");
 
             // Partie 3
