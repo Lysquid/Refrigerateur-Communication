@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "fimi-bd-srv1.insa-lyon.fr",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "BD P2I2",
+            "database": "G221_A_BD1",
+            "username": "G221_A",
+            "password": "G221_A"
+        }
+    ]
+}
