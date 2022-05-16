@@ -1,12 +1,10 @@
 package fr.insalyon.p2i2.javaarduino;
 
+import java.io.IOException;
+
 import fr.insalyon.p2i2.javaarduino.communicationBD.CommunicationBD;
 import fr.insalyon.p2i2.javaarduino.usb.ArduinoManager;
 import fr.insalyon.p2i2.javaarduino.util.Console;
-import java.io.IOException;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class TestArduino {
 
@@ -30,6 +28,8 @@ public class TestArduino {
 
         console.log("CONNEXION au port " + myPort);
 
+        CommunicationBD communicationBD = new CommunicationBD();
+
         ArduinoManager arduino = new ArduinoManager(myPort) {
             @Override
             protected void onData(String line) {
@@ -39,7 +39,6 @@ public class TestArduino {
                 // Affichage sur la Console de la ligne transmise par l'Arduino
                 console.println("ARDUINO >> " + line);
 
-                CommunicationBD communicationBD = new CommunicationBD();
                 communicationBD.handleData(line);
 
                 // À vous de jouer ;-)

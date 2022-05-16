@@ -1,11 +1,7 @@
 package fr.insalyon.p2i2.javaarduino.communicationBD;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,7 +17,6 @@ import java.util.Locale;
 
 public class CommunicationBD {
 
-    // À adapter à votre BD
     private final String serveurBD = "fimi-bd-srv1.insa-lyon.fr";
     private final String portBD = "3306";
     private final String nomBD = "G221_A_BD1";
@@ -29,10 +24,11 @@ public class CommunicationBD {
     private final String motdepasseBD = "G221_A";
 
     private Connection connection = null;
+
     private PreparedStatement insertMesureStatement = null;
     private PreparedStatement selectMesuresStatement = null;
 
-    public Connection connexionBD() throws Exception {
+    public CommunicationBD() {
 
         try {
             // Enregistrement de la classe du driver par le driverManager
@@ -60,10 +56,10 @@ public class CommunicationBD {
                 System.out.println("- " + result.getString("table_schema") + "." + result.getString("table_name"));
             }
 
-            return connection;
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
-            throw new Exception("Erreur dans la méthode connexionBD()");
+            // throw new Exception("Erreur dans la méthode connexionBD()");
+            System.exit(1);
         }
 
     }
@@ -188,20 +184,30 @@ public class CommunicationBD {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
     private void handleInfo(String capteur, String mesure) throws SQLException {
 
-        PreparedStatement insertStatement = this.connection.prepareStatement("INSERT INTO Mesure"
-                + " (idCapteur, date, valeur)"
+        PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Mesure"
+                + " (nomCapteur, valeur, dateMesure)"
                 + " VALUES (?, ?, ?);");
 
         Date datetime = new Date();
 
-        insertStatement.setInt(1, 1);
-        insertStatement.setTimestamp(2, new Timestamp(datetime.getTime()));
-        insertStatement.setFloat(3, Float.parseFloat(mesure));
+        insertStatement.setString(1, capteur);
+        double value;
+        if (capteur.contains("gaz")) {
+            value = Integer.valueOf(mesure);
+        } else {
+            value = Double.valueOf(mesure);
+        }
+        insertStatement.setDouble(2, value);
+        insertStatement.setTimestamp(3, new Timestamp(datetime.getTime()));
+        System.out.println(insertStatement);
+
+        insertStatement.executeUpdate();
 
     }
 }
