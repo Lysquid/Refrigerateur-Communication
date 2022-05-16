@@ -1,15 +1,19 @@
 package fr.insalyon.p2i2.javaarduino;
 
+import fr.insalyon.p2i2.javaarduino.communicationBD.CommunicationBD;
 import fr.insalyon.p2i2.javaarduino.usb.ArduinoManager;
 import fr.insalyon.p2i2.javaarduino.util.Console;
 import java.io.IOException;
 
-public class TestArduino 
-{
-    
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class TestArduino {
+
     public static void main(String[] args) {
 
-        // Objet matérialisant la console d'exécution (Affichage Écran / Lecture Clavier)
+        // Objet matérialisant la console d'exécution (Affichage Écran / Lecture
+        // Clavier)
         final Console console = new Console();
 
         // Affichage sur la console
@@ -30,17 +34,22 @@ public class TestArduino
             @Override
             protected void onData(String line) {
 
-                // Cette méthode est appelée AUTOMATIQUEMENT lorsque l'Arduino envoie des données
+                // Cette méthode est appelée AUTOMATIQUEMENT lorsque l'Arduino envoie des
+                // données
                 // Affichage sur la Console de la ligne transmise par l'Arduino
                 console.println("ARDUINO >> " + line);
 
+                CommunicationBD communicationBD = new CommunicationBD();
+                communicationBD.handleData(line);
+
                 // À vous de jouer ;-)
                 // Par exemple:
-                //   String[] data = line.split(";");
-                //   int sensorid = Integer.parseInt(data[0]);
-                //   double value = Double.parseDouble(data[1]);
-                //   ...
+                // String[] data = line.split(";");
+                // int sensorid = Integer.parseInt(data[0]);
+                // double value = Double.parseDouble(data[1]);
+                // ...
             }
+
         };
 
         try {

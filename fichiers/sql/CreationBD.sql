@@ -20,6 +20,7 @@ create table TypeMesure(
 );
 create table Capteur(
     idCapteur int(8) auto_increment,
+    nomCapteur varchar(20) not null,
     idTypeMesure int(8) not null,
     dateInstallation Date,
     primary key (idCapteur),
