@@ -29,6 +29,7 @@ public class TestArduino {
         console.log("CONNEXION au port " + myPort);
 
         CommunicationBD communicationBD = new CommunicationBD();
+        communicationBD.creerRequetesParametrees();
 
         ArduinoManager arduino = new ArduinoManager(myPort) {
             @Override

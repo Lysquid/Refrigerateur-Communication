@@ -25,7 +25,7 @@ public class CommunicationBD {
 
     private Connection connection = null;
 
-    private PreparedStatement insertMesureStatement = null;
+    private PreparedStatement insertInfoStatement = null;
     private PreparedStatement selectMesuresStatement = null;
 
     public CommunicationBD() {
@@ -64,20 +64,20 @@ public class CommunicationBD {
 
     }
 
-    public void creerRequetesParametrees() throws Exception {
+    public void creerRequetesParametrees() {
         try {
             // À compléter
-            this.insertMesureStatement = this.connection.prepareStatement("INSERT INTO Mesure"
-                    + " (idCapteur, date, valeur)"
-                    + " VALUES (?, ?, ?);");
-            this.selectMesuresStatement = this.connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
+            this.insertInfoStatement = connection.prepareStatement("INSERT INTO Mesure"
+                    + " (nomCapteur, valeur, dateMesure)"
+                    + " VALUES (?, ?, NOW());");
+            this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
                     + " WHERE numInventaire = ?"
                     + " AND dateMesure > ?"
                     + " AND dateMesure < ?");
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
-            throw new Exception("Erreur dans la méthode creerRequetesParametrees()");
+            System.exit(1);
         }
     }
 
@@ -109,10 +109,10 @@ public class CommunicationBD {
     public int ajouterMesure(int numInventaire, double valeur, Date datetime) {
         try {
             // À compléter
-            this.insertMesureStatement.setInt(1, numInventaire);
-            this.insertMesureStatement.setDouble(2, valeur);
-            this.insertMesureStatement.setTimestamp(3, new Timestamp(datetime.getTime())); // DATETIME
-            return this.insertMesureStatement.executeUpdate();
+            this.insertInfoStatement.setInt(1, numInventaire);
+            this.insertInfoStatement.setDouble(2, valeur);
+            this.insertInfoStatement.setTimestamp(3, new Timestamp(datetime.getTime())); // DATETIME
+            return this.insertInfoStatement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             return -1;
@@ -190,24 +190,17 @@ public class CommunicationBD {
 
     private void handleInfo(String capteur, String mesure) throws SQLException {
 
-        PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Mesure"
-                + " (nomCapteur, valeur, dateMesure)"
-                + " VALUES (?, ?, ?);");
-
-        Date datetime = new Date();
-
-        insertStatement.setString(1, capteur);
+        insertInfoStatement.setString(1, capteur);
         double value;
         if (capteur.contains("gaz")) {
             value = Integer.valueOf(mesure);
         } else {
             value = Double.valueOf(mesure);
         }
-        insertStatement.setDouble(2, value);
-        insertStatement.setTimestamp(3, new Timestamp(datetime.getTime()));
-        System.out.println(insertStatement);
+        insertInfoStatement.setDouble(2, value);
+        System.out.println(insertInfoStatement);
 
-        insertStatement.executeUpdate();
+        insertInfoStatement.executeUpdate();
 
     }
 }

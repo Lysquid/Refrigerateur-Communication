@@ -22,24 +22,24 @@ VALUES ("H2", "ppm");
 INSERT INTO TypeMesure
 VALUES ("C2H5OH", "ppm");
 INSERT INTO Capteur
-VALUES ("thermistance", "température", NULL);
+VALUES ("thermistance", "température", NOW());
 INSERT INTO Capteur
-VALUES ("humidite", "humidité", NULL);
+VALUES ("humidite", "humidité", NOW());
 INSERT INTO Capteur
-VALUES ("temperature2", "température", NULL);
+VALUES ("temperature2", "température", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-NH3", "NH3", NULL);
+VALUES ("gaz-NH3", "NH3", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-CO", "CO", NULL);
+VALUES ("gaz-CO", "CO", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-NO2", "NO2", NULL);
+VALUES ("gaz-NO2", "NO2", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C3H8", "C3H8", NULL);
+VALUES ("gaz-C3H8", "C3H8", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C4H10", "C4H10", NULL);
+VALUES ("gaz-C4H10", "C4H10", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-CH4", "CH4", NULL);
+VALUES ("gaz-CH4", "CH4", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-H2", "H2", NULL);
+VALUES ("gaz-H2", "H2", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C2H5OH", "C2H5OH", NULL);
+VALUES ("gaz-C2H5OH", "C2H5OH", NOW());
