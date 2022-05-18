@@ -28,6 +28,8 @@ public class CommunicationBD {
     private PreparedStatement insertInfoStatement = null;
     private PreparedStatement insertPorteStatement = null;
     private PreparedStatement insertCodebarreStatement = null;
+    private PreparedStatement updateProduitStatement = null;
+    private PreparedStatement selectProduitStatement = null;
 
     private PreparedStatement selectMesuresStatement = null;
 
@@ -74,8 +76,14 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, ?, NOW());");
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
-            insertCodebarreStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
-                    + " VALUES (NULL, ?, NOW());");
+            insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
+                    + " VALUES (NULL, ?, ?, NOW());");
+            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
+                    + " SET quantite = quantite + ?"
+                    + " WHERE codeBarre = ?;");
+            selectProduitStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
+                    + " FROM Produit"
+                    + " WHERE codeBarre = ?;");
 
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
@@ -195,9 +203,31 @@ public class CommunicationBD {
         }
     }
 
-    private void handleCodebarre(String mesure) {
+    private void handleCodebarre(String mesure) throws SQLException {
 
-        long value = Integer.valueOf(mesure);
+        long codeBarre = Long.parseLong(mesure);
+
+        selectProduitStatement.setLong(1, codeBarre);
+        System.out.println(selectProduitStatement.toString());
+        ResultSet result = selectProduitStatement.executeQuery();
+        result.next();
+        boolean produitExiste = result.getInt(1) == 1;
+
+        Boolean ajout = true;
+
+        if (!produitExiste) {
+            // TODO : ajouter produit
+        }
+
+        updateProduitStatement.setInt(1, ajout ? 1 : -1);
+        updateProduitStatement.setLong(2, codeBarre);
+        System.out.println(updateProduitStatement.toString());
+        updateProduitStatement.executeUpdate();
+
+        insertCodebarreStatement.setLong(1, codeBarre);
+        insertCodebarreStatement.setBoolean(2, ajout);
+        System.out.println(insertCodebarreStatement);
+        insertCodebarreStatement.executeUpdate();
 
     }
 
@@ -212,12 +242,6 @@ public class CommunicationBD {
     private void handleInfo(String capteur, String mesure) throws SQLException {
 
         insertInfoStatement.setInt(1, Integer.valueOf(capteur));
-        double value;
-        if (capteur.contains("gaz")) {
-            value = Integer.valueOf(mesure);
-        } else {
-            value = Double.valueOf(mesure);
-        }
         insertInfoStatement.setDouble(2, Double.valueOf(mesure));
         System.out.println(insertInfoStatement);
 
