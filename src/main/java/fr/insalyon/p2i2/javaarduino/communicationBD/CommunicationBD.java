@@ -216,7 +216,7 @@ public class CommunicationBD {
         Boolean ajout = true;
 
         if (!produitExiste) {
-            // TODO : ajouter produit
+            // TODO : ajouter produit avec requete OpenFoodFacts
         }
 
         updateProduitStatement.setInt(1, ajout ? 1 : -1);
