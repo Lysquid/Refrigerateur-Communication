@@ -30,6 +30,7 @@ public class CommunicationBD {
     private PreparedStatement insertPorteStatement = null;
     private PreparedStatement insertCodebarreStatement = null;
     private PreparedStatement updateProduitStatement = null;
+    private PreparedStatement selectProduitStatement = null;
 
     private PreparedStatement selectMesuresStatement = null;
 
@@ -77,8 +78,13 @@ public class CommunicationBD {
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
             insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
-                    + " VALUES (NULL, ?, TRUE, NOW());");
-            updateProduitStatement = connection.prepareStatement("UPDATE Produit" + "SET quantite = quantite + 1");
+                    + " VALUES (NULL, ?, ?, NOW());");
+            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
+                    + " SET quantite = quantite + ?"
+                    + " WHERE codeBarre = ?;");
+            selectProduitStatement = connection.prepareStatement("SELECT COUNT(*)"
+                    + " FROM Produit"
+                    + " WHERE codeBarre = ?;");
 
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
@@ -200,8 +206,27 @@ public class CommunicationBD {
 
     private void handleCodebarre(String mesure) throws SQLException {
 
-        long value = Long.parseLong(mesure);
-        insertCodebarreStatement.setLong(1, value);
+        long codeBarre = Long.parseLong(mesure);
+
+        selectProduitStatement.setLong(1, codeBarre);
+        System.out.println(selectProduitStatement.toString());
+        ResultSet result = selectProduitStatement.executeQuery();
+        System.out.println(result.getInt(1));
+        boolean produitExiste = result.getInt(0) == 1;
+
+        Boolean ajout = true;
+
+        if (!produitExiste) {
+            // TODO : ajouter produit
+        }
+
+        updateProduitStatement.setInt(1, ajout ? 1 : -1);
+        updateProduitStatement.setLong(2, codeBarre);
+        System.out.println(updateProduitStatement.toString());
+        updateProduitStatement.executeUpdate();
+
+        insertCodebarreStatement.setLong(1, codeBarre);
+        insertCodebarreStatement.setBoolean(2, ajout);
         System.out.println(insertCodebarreStatement);
         insertCodebarreStatement.executeUpdate();
 
