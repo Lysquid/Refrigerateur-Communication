@@ -107,3 +107,4 @@ FROM OuverturePorte
 WHERE dateOuverture >= ?
 AND dateOuverture <= ?;
 
+-- Pire requete à faire : ajout d'un seuil
