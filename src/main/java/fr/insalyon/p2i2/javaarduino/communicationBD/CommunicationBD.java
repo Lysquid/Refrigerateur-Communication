@@ -3,6 +3,7 @@ package fr.insalyon.p2i2.javaarduino.communicationBD;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ public class CommunicationBD {
     private PreparedStatement insertInfoStatement = null;
     private PreparedStatement insertPorteStatement = null;
     private PreparedStatement insertCodebarreStatement = null;
+    private PreparedStatement updateProduitStatement = null;
 
     private PreparedStatement selectMesuresStatement = null;
 
@@ -74,8 +76,9 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, ?, NOW());");
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
-            insertCodebarreStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
-                    + " VALUES (NULL, ?, NOW());");
+            insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
+                    + " VALUES (NULL, ?, TRUE, NOW());");
+            updateProduitStatement = connection.prepareStatement("UPDATE Produit" + "SET quantite = quantite + 1");
 
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
@@ -195,9 +198,12 @@ public class CommunicationBD {
         }
     }
 
-    private void handleCodebarre(String mesure) {
+    private void handleCodebarre(String mesure) throws SQLException {
 
-        long value = Integer.valueOf(mesure);
+        long value = Long.parseLong(mesure);
+        insertCodebarreStatement.setLong(1, value);
+        System.out.println(insertCodebarreStatement);
+        insertCodebarreStatement.executeUpdate();
 
     }
 
@@ -212,12 +218,6 @@ public class CommunicationBD {
     private void handleInfo(String capteur, String mesure) throws SQLException {
 
         insertInfoStatement.setInt(1, Integer.valueOf(capteur));
-        double value;
-        if (capteur.contains("gaz")) {
-            value = Integer.valueOf(mesure);
-        } else {
-            value = Double.valueOf(mesure);
-        }
         insertInfoStatement.setDouble(2, Double.valueOf(mesure));
         System.out.println(insertInfoStatement);
 
