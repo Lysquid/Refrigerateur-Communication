@@ -81,7 +81,7 @@ public class CommunicationBD {
             updateProduitStatement = connection.prepareStatement("UPDATE Produit"
                     + " SET quantite = quantite + ?"
                     + " WHERE codeBarre = ?;");
-            selectProduitStatement = connection.prepareStatement("SELECT COUNT(*)"
+            selectProduitStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
 
@@ -210,8 +210,8 @@ public class CommunicationBD {
         selectProduitStatement.setLong(1, codeBarre);
         System.out.println(selectProduitStatement.toString());
         ResultSet result = selectProduitStatement.executeQuery();
-        System.out.println(result.getInt(1));
-        boolean produitExiste = result.getInt(0) == 1;
+        result.next();
+        boolean produitExiste = result.getInt(1) == 1;
 
         Boolean ajout = true;
 
