@@ -2,44 +2,44 @@ DELETE FROM Mesure;
 DELETE FROM Capteur;
 DELETE FROM TypeMesure;
 INSERT INTO TypeMesure
-VALUES ("température", "°C");
+VALUES (1, "température", "°C");
 INSERT INTO TypeMesure
-VALUES ("humidité", "%");
+VALUES (2, "humidité", "%");
 INSERT INTO TypeMesure
-VALUES ("NH3", "ppm");
+VALUES (3, "NH3", "ppm");
 INSERT INTO TypeMesure
-VALUES ("CO", "ppm");
+VALUES (4, "CO", "ppm");
 INSERT INTO TypeMesure
-VALUES ("NO2", "ppm");
+VALUES (5, "NO2", "ppm");
 INSERT INTO TypeMesure
-VALUES ("C3H8", "ppm");
+VALUES (6, "C3H8", "ppm");
 INSERT INTO TypeMesure
-VALUES ("C4H10", "ppm");
+VALUES (7, "C4H10", "ppm");
 INSERT INTO TypeMesure
-VALUES ("CH4", "ppm");
+VALUES (8, "CH4", "ppm");
 INSERT INTO TypeMesure
-VALUES ("H2", "ppm");
+VALUES (9, "H2", "ppm");
 INSERT INTO TypeMesure
-VALUES ("C2H5OH", "ppm");
+VALUES (10, "C2H5OH", "ppm");
 INSERT INTO Capteur
-VALUES ("thermistance", "température", NOW());
+VALUES (1, 1, "Thermistance", NOW());
 INSERT INTO Capteur
-VALUES ("humidite", "humidité", NOW());
+VALUES (2, 2, "Humidité", NOW());
 INSERT INTO Capteur
-VALUES ("temperature2", "température", NOW());
+VALUES (3, 3, "Gaz NH3", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-NH3", "NH3", NOW());
+VALUES (4, 4, "Gaz CO", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-CO", "CO", NOW());
+VALUES (5, 5, "Gaz NO2", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-NO2", "NO2", NOW());
+VALUES (6, 6, "Gaz C3H8", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C3H8", "C3H8", NOW());
+VALUES (7, 7, "Gaz C4H10", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C4H10", "C4H10", NOW());
+VALUES (8, 8, "Gaz CH4", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-CH4", "CH4", NOW());
+VALUES (9, 9, "Gaz H2", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-H2", "H2", NOW());
+VALUES (10, 10, "Gaz C2H5OH", NOW());
 INSERT INTO Capteur
-VALUES ("gaz-C2H5OH", "C2H5OH", NOW());
+VALUES (11, 1, "Température 2", NOW());
