@@ -28,10 +28,10 @@ WHERE CodeBarre.codeBarre = Produit.codeBarre;
 
 -- pour chaque capteur, envoyer le type, la valeur et l’unité de la mesure sur un certaine période de temps
 
-SELECT idCapteur, nomTypeMesure, valeur, unite, mesure.date
+SELECT Capteur.nomCapteur, nomTypeMesure, valeur, unite, mesure.date
 FROM TypeMesure, Capteur, Mesure
-WHERE TypeMesure.idTypeMesure = Capteur.idTypeMesure
-AND Capteur.idCapteur = Mesure.idCapteur
+WHERE TypeMesure.nomTypeMesure = Capteur.nomTypeMesure
+AND Capteur.nomCapteur = Mesure.nomCapteur
 AND date < ?
 AND date > ?;
 
