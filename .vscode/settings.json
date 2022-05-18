@@ -13,5 +13,6 @@
             "username": "G221_A",
             "password": "G221_A"
         }
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
