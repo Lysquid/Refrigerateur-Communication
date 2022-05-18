@@ -8,7 +8,7 @@ LIMIT 0,1;
 
 SELECT seuilMax, seuilMin, nomTypeMesure
 FROM Seuil, TypeMesure, CategorieProduit
-WHERE Seuil.nomTypeMesure = TypeMesure.nomTypeMesure
+WHERE Seuil.idTypeMesure = TypeMesure.idTypeMesure
 AND Seuil.nomCategorieProduit = CategorieProduit.nomCategorieProduit
 AND CategorieProduit.nomCategorieProduit = ?;
 
@@ -16,8 +16,8 @@ AND CategorieProduit.nomCategorieProduit = ?;
 
 SELECT seuilMax, seuilMin, nomCategorieProduit
 FROM Seuil, TypeMesure, CategorieProduit
-WHERE Seuil.nomTypeMesure = TypeMesure.nomTypeMesure
-AND Seuil.nomCategorieProduit = CategorieProduit.nomCategorieProduit
+WHERE Seuil.idTypeMesure = TypeMesure.idTypeMesure
+AND Seuil.idCategorieProduit = CategorieProduit.idCategorieProduit
 AND TypeMesure.nomTypeMesure = ?;
 
 -- Affichage du produit et de sa quantité, correspondant à un code barre
@@ -30,7 +30,7 @@ WHERE CodeBarre.codeBarre = Produit.codeBarre;
 
 SELECT Capteur.nomCapteur, nomTypeMesure, valeur, unite, Mesure.dateMesure
 FROM TypeMesure, Capteur, Mesure
-WHERE TypeMesure.nomTypeMesure = Capteur.nomTypeMesure
+WHERE TypeMesure.idTypeMesure = Capteur.idTypeMesure
 AND Capteur.nomCapteur = Mesure.nomCapteur
 AND dateMesure < ?
 AND dateMesure > ?;
