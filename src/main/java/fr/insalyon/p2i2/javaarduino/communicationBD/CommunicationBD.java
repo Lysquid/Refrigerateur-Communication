@@ -26,6 +26,9 @@ public class CommunicationBD {
     private Connection connection = null;
 
     private PreparedStatement insertInfoStatement = null;
+    private PreparedStatement insertPorteStatement = null;
+    private PreparedStatement insertCodebarreStatement = null;
+
     private PreparedStatement selectMesuresStatement = null;
 
     public CommunicationBD() {
@@ -67,9 +70,13 @@ public class CommunicationBD {
     public void creerRequetesParametrees() {
         try {
             // À compléter
-            this.insertInfoStatement = connection.prepareStatement("INSERT INTO Mesure"
-                    + " (nomCapteur, valeur, dateMesure)"
-                    + " VALUES (?, ?, NOW());");
+            insertInfoStatement = connection.prepareStatement("INSERT INTO Mesure"
+                    + " VALUES (NULL, ?, ?, NOW());");
+            insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
+                    + " VALUES (NULL, ?, NOW());");
+            insertCodebarreStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
+                    + " VALUES (NULL, ?, NOW());");
+
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
                     + " WHERE numInventaire = ?"
@@ -171,11 +178,11 @@ public class CommunicationBD {
                     break;
 
                 case "porte":
-
+                    handlePorte(mesure);
                     break;
 
                 case "codebarre":
-
+                    handleCodebarre(mesure);
                     break;
 
                 default:
@@ -188,16 +195,30 @@ public class CommunicationBD {
         }
     }
 
+    private void handleCodebarre(String mesure) {
+
+        long value = Integer.valueOf(mesure);
+
+    }
+
+    private void handlePorte(String mesure) throws SQLException {
+
+        insertPorteStatement.setInt(1, Integer.parseInt(mesure));
+        System.out.println(insertPorteStatement);
+        insertPorteStatement.executeUpdate();
+
+    }
+
     private void handleInfo(String capteur, String mesure) throws SQLException {
 
-        insertInfoStatement.setString(1, capteur);
+        insertInfoStatement.setInt(1, Integer.valueOf(capteur));
         double value;
         if (capteur.contains("gaz")) {
             value = Integer.valueOf(mesure);
         } else {
             value = Double.valueOf(mesure);
         }
-        insertInfoStatement.setDouble(2, value);
+        insertInfoStatement.setDouble(2, Double.valueOf(mesure));
         System.out.println(insertInfoStatement);
 
         insertInfoStatement.executeUpdate();
