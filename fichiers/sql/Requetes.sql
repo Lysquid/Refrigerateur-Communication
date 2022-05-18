@@ -1,6 +1,6 @@
 --Récupération de la dernière date ligne de la table OuverturePorte
 
-SELECT date, porteOuverte
+SELECT dateOuverture, porteOuverte
 FROM OuverturePorte
 LIMIT 0,1;
 
@@ -22,9 +22,10 @@ AND TypeMesure.nomTypeMesure = ?;
 
 -- Affichage du produit et de sa quantité, correspondant à un code barre
 
-SELECT idCodebarre, nomProduit, quantite
+SELECT CodeBarre.codeBarre, nomProduit, quantite
 FROM CodeBarre, Produit
-WHERE CodeBarre.codeBarre = Produit.codeBarre;
+WHERE CodeBarre.codeBarre = Produit.codeBarre
+GROUP BY CodeBarre.codeBarre;
 
 -- pour chaque capteur, envoyer le type, la valeur et l’unité de la mesure sur un certaine période de temps
 
@@ -41,23 +42,68 @@ SELECT nomProduit, quantite
 FROM Produit
 WHERE quantite != 0;
 
--- Nombre de produit ajouté dans le réfrigérateur pendant ? temps
+-- Nom et Nombre des produits ajoutés ou retirés dans le réfrigérateur pendant un certain temps
 
-SELECT Count(nomProduit)*quantite as nbProduit
+SELECT nomProduit, Count(nomProduit)*quantite as nbProduitAjoute
 FROM Produit, CodeBarre
 WHERE Produit.codeBarre = CodeBarre.codeBarre
 AND dateCodeBarre >= ?
 AND dateCodeBarre <= ?
-AND ajout = true;
+AND ajout = true
+GROUP BY nomProduit
+ORDER BY nomProduit;
 
--- récupérer le nom des produits ajoutés pendant un certains temps
+-- Historique de flux sortant ou entrant dans le frigo
+
 SELECT nomProduit, dateCodeBarre
 FROM CodeBarre, Produit
 WHERE Produit.codeBarre = CodeBarre.codeBarre
-AND dateCodeBarre <= ?
 AND dateCodeBarre >= ?
-AND ajout = true;
+AND dateCodeBarre <= ?
+AND ajout = ?;
 
+-- Historique complet des flux du frigo
 
+SELECT nomProduit, dateCodeBarre, ajout
+FROM CodeBarre, Produit
+WHERE Produit.codeBarre = CodeBarre.codeBarre
+AND dateCodeBarre >= ?
+AND dateCodeBarre <= ?
+ORDER BY dateCodeBarre;
 
+-- Moyenne sur un certain interval de temps, d'un produit retiré ou ajouté
+
+SELECT nomProduit, (Count(nomProduit)*quantite)/(DATEDIFF(?,?)/?) as moyenneNombreProduit -- avec ? le nombre de jour jour de jour de la moyenne que tu veux faire
+FROM Produit, CodeBarre
+WHERE Produit.codeBarre = CodeBarre.codeBarre
+AND dateCodeBarre >= ?
+AND dateCodeBarre <= ?
+AND ajout = ?
+GROUP BY nomProduit;
+
+-- Moyenne sur un certain interval de temps d'un type de produit retiré ou ajouté
+
+SELECT nomCategorieProduit, (Count(nomProduit)*quantite)/(DATEDIFF(?,?)/?) as moyenneCategorieProduit -- avec le ? seul, le nombre de jour jour de jour de la moyenne que tu veux faire
+FROM Produit, CodeBarre, CategorieProduit
+WHERE Produit.codeBarre = CodeBarre.codeBarre
+AND Produit.idCategorieProduit = CategorieProduit.idCategorieProduit
+AND dateCodeBarre >= ?
+AND dateCodeBarre <= ?
+AND ajout = ?
+GROUP BY nomCategorieProduit;
+
+-- Combien de fois le frigo est ouvert sur un certain interval de temps
+
+SELECT COUNT(porteOuverte) as nombreOuverture
+FROM OuverturePorte
+WHERE porteOuverte = true
+AND dateOuverture >= ?
+AND dateOuverture <= ?;
+
+-- Historique d'ouverture du frigo sur un certain interval de temps
+
+SELECT porteOuverte, dateOuverture
+FROM OuverturePorte
+WHERE dateOuverture >= ?
+AND dateOuverture <= ?;
 
