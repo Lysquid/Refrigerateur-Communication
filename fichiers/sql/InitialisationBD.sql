@@ -1,7 +1,8 @@
 DELETE FROM Mesure;
 DELETE FROM Capteur;
-DELETE FROM TypeMesure;
 DELETE FROM Seuil;
+DELETE FROM TypeMesure;
+DELETE FROM AssociationCategorie;
 DELETE FROM CategorieProduit;
 DELETE FROM Produit;
 DELETE FROM CodeBarre;

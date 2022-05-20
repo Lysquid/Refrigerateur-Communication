@@ -267,6 +267,11 @@ public class CommunicationBD {
                 if (categorie.startsWith(" ")) {
                     categorie = categorie.substring(1);
                 }
+                if (categorie.startsWith("fr:")) {
+                    categorie = categorie.substring(3, 4).toUpperCase() + categorie.substring(4);
+                } else if (categorie.startsWith("en:")) {
+                    continue;
+                }
 
                 selectCategorieStatement.setString(1, categorie);
                 System.out.println(selectCategorieStatement);
