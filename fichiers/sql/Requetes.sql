@@ -2,6 +2,7 @@
 
 SELECT dateOuverture, porteOuverte
 FROM OuverturePorte
+ORDER BY dateOuverture DESC
 LIMIT 0,1;
 
 --Récupération des seuils correspondat au type du produit (? = Type du produit que l'on cherche)
@@ -9,7 +10,7 @@ LIMIT 0,1;
 SELECT seuilMax, seuilMin, nomTypeMesure
 FROM Seuil, TypeMesure, CategorieProduit
 WHERE Seuil.idTypeMesure = TypeMesure.idTypeMesure
-AND Seuil.nomCategorieProduit = CategorieProduit.nomCategorieProduit
+AND Seuil.idCategorieProduit = CategorieProduit.idCategorieProduit
 AND CategorieProduit.nomCategorieProduit = ?;
 
 --Récupération des différentes seuils correspondant au type de mesure (? = Type de mesure que l'on cherche)
@@ -20,21 +21,22 @@ WHERE Seuil.idTypeMesure = TypeMesure.idTypeMesure
 AND Seuil.idCategorieProduit = CategorieProduit.idCategorieProduit
 AND TypeMesure.nomTypeMesure = ?;
 
--- Affichage du produit et de sa quantité, correspondant à un code barre
+-- Affichage des produits et de leur quantité, correspondant à un code barre
 
 SELECT CodeBarre.codeBarre, nomProduit, quantite
 FROM CodeBarre, Produit
 WHERE CodeBarre.codeBarre = Produit.codeBarre
 GROUP BY CodeBarre.codeBarre;
 
--- pour chaque capteur, envoyer le type, la valeur et l’unité de la mesure sur un certaine période de temps
+-- pour un capteur donné, envoyer le type, la valeur et l’unité de la mesure sur un certaine période de temps
 
 SELECT Capteur.nomCapteur, nomTypeMesure, valeur, unite, Mesure.dateMesure
 FROM TypeMesure, Capteur, Mesure
 WHERE TypeMesure.idTypeMesure = Capteur.idTypeMesure
-AND Capteur.nomCapteur = Mesure.nomCapteur
-AND dateMesure < ?
-AND dateMesure > ?;
+AND Capteur.idCapteur = Mesure.idCapteur
+AND Capteur.nomCapteur = ?
+AND dateMesure > ?
+AND dateMesure < ?;
 
 -- pour récupérer la liste des produits dans le réfrigérateur et leur quantité
 
@@ -61,6 +63,8 @@ WHERE Produit.codeBarre = CodeBarre.codeBarre
 AND dateCodeBarre >= ?
 AND dateCodeBarre <= ?
 AND ajout = ?;
+
+--Arrêt des tests ici
 
 -- Historique complet des flux du frigo
 
