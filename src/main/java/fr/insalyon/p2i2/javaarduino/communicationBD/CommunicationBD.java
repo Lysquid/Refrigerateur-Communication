@@ -36,6 +36,7 @@ public class CommunicationBD {
     private PreparedStatement insertCodebarreStatement;
     private PreparedStatement updateProduitStatement;
     private PreparedStatement selectProduitStatement;
+    private PreparedStatement insertProduitStatement;
     private PreparedStatement insertAssociationStatement;
     private PreparedStatement insertCategorieStatement;
     private PreparedStatement selectCategorieStatement;
@@ -89,13 +90,15 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, NOW());");
             insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
                     + " VALUES (NULL, ?, ?, NOW());");
-            selectProduitStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
+            selectProduitStatement = connection.prepareStatement("SELECT *"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
+            insertProduitStatement = connection.prepareStatement("INSERT INTO Produit"
+                    + " VALUES (?, ?, ?);");
             updateProduitStatement = connection.prepareStatement("UPDATE Produit"
                     + " SET quantite = quantite + ?"
                     + " WHERE codeBarre = ?;");
-            selectCategorieStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
+            selectCategorieStatement = connection.prepareStatement("SELECT idCategorieProduit"
                     + " FROM CategorieProduit"
                     + " WHERE nomCategorieProduit = ?;");
             insertCategorieStatement = connection.prepareStatement("INSERT INTO CategorieProduit"
@@ -227,20 +230,47 @@ public class CommunicationBD {
 
         selectProduitStatement.setLong(1, codeBarre);
         System.out.println(selectProduitStatement.toString());
-        ResultSet result = selectProduitStatement.executeQuery();
-        result.next();
-        boolean produitExiste = result.getInt(1) == 1;
+        ResultSet resultProduit = selectProduitStatement.executeQuery();
+        boolean produitExiste = resultProduit.next();
 
         Boolean ajout = true;
 
         if (!produitExiste) {
-            // TODO : ajouter produit avec requete OpenFoodFacts
 
             ProductResponse productResponse = foodWrapper.fetchProductByCode(String.valueOf(codeBarre));
-
             Product product = productResponse.getProduct();
 
+            insertProduitStatement.setLong(1, codeBarre);
+            insertProduitStatement.setString(2, product.getGenericName());
+            insertProduitStatement.setInt(3, 1);
+            System.out.println(insertProduitStatement);
+            insertProduitStatement.executeUpdate();
+
             String[] categories = product.getCategories().split(", ");
+
+            for (String categorie : categories) {
+
+                selectCategorieStatement.setString(1, categorie);
+                System.out.println(selectCategorieStatement);
+                ResultSet resultCategorie = selectCategorieStatement.executeQuery();
+
+                if (!resultCategorie.next()) {
+                    insertCategorieStatement.setString(1, categorie);
+                    System.out.println(insertCategorieStatement);
+                    insertCategorieStatement.executeUpdate();
+                }
+
+                System.out.println(selectCategorieStatement);
+                resultCategorie = selectCategorieStatement.executeQuery();
+                resultCategorie.next();
+                int idCategorieProduit = resultCategorie.getInt(1);
+
+                insertAssociationStatement.setLong(1, codeBarre);
+                insertAssociationStatement.setInt(2, idCategorieProduit);
+                System.out.println(insertAssociationStatement);
+                insertAssociationStatement.executeUpdate();
+
+            }
 
         }
 

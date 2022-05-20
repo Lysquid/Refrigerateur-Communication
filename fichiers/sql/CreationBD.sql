@@ -37,12 +37,12 @@ CREATE TABLE Mesure(
 );
 CREATE TABLE CategorieProduit(
     idCategorieProduit INT(8) AUTO_INCREMENT,
-    nomCategorieProduit VARCHAR(20) NOT NULL,
+    nomCategorieProduit VARCHAR(100) NOT NULL,
     PRIMARY KEY (idCategorieProduit)
 );
 CREATE TABLE Produit(
     codeBarre BIGINT(13) NOT NULL,
-    nomProduit VARCHAR(20),
+    nomProduit VARCHAR(100),
     quantite INT NOT NULL,
     PRIMARY KEY (codeBarre)
 );
