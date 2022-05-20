@@ -74,7 +74,7 @@ VALUES(10, "Poireaux");
 INSERT INTO CategorieProduit
 VALUES(11, "Haricots verts");
 INSERT INTO CategorieProduit
-VALUES(12, "Cheeses");
+VALUES(12, "Fromages");
 INSERT INTO CategorieProduit
 VALUES(13, "Viandes");
 INSERT INTO CategorieProduit
@@ -277,7 +277,7 @@ VALUES(
         (
             SELECT idCategorieProduit
             FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Cheeses'
+            WHERE nomCategorieProduit = 'Fromages'
         ),
         (
             SELECT idTypeMesure
