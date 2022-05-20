@@ -40,6 +40,8 @@ public class CommunicationBD {
     private PreparedStatement insertAssociationStatement;
     private PreparedStatement insertCategorieStatement;
     private PreparedStatement selectCategorieStatement;
+    private PreparedStatement selectCodeBarreStatement;
+    private PreparedStatement updateCodeBarreStatement;
 
     private PreparedStatement selectMesuresStatement = null;
 
@@ -89,7 +91,7 @@ public class CommunicationBD {
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
             insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
-                    + " VALUES (NULL, ?, ?, NOW());");
+                    + " VALUES (NULL, ?, NULL, NOW());");
             selectProduitStatement = connection.prepareStatement("SELECT *"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
@@ -105,6 +107,12 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?);");
             insertAssociationStatement = connection.prepareStatement("INSERT INTO AssociationCategorie"
                     + " VALUES (?, ?);");
+            selectCodeBarreStatement = connection.prepareStatement("SELECT codeBarre"
+                    + " FROM CodeBarre"
+                    + " WHERE ajout IS NULL;");
+            updateCodeBarreStatement = connection.prepareStatement("UPDATE CodeBarre"
+                    + " SET ajout = ?"
+                    + " WHERE ajout IS NULL;");
 
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
@@ -217,7 +225,7 @@ public class CommunicationBD {
                     break;
             }
 
-        } catch (SQLException | ArrayIndexOutOfBoundsException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -236,8 +244,6 @@ public class CommunicationBD {
         ResultSet resultProduit = selectProduitStatement.executeQuery();
         boolean produitExiste = resultProduit.next();
 
-        Boolean ajout = true;
-
         if (!produitExiste) {
 
             ProductResponse productResponse = foodWrapper.fetchProductByCode(String.valueOf(codeBarre));
@@ -250,7 +256,7 @@ public class CommunicationBD {
 
             insertProduitStatement.setLong(1, codeBarre);
             insertProduitStatement.setString(2, product.getProductName());
-            insertProduitStatement.setInt(3, 1);
+            insertProduitStatement.setInt(3, 0);
             System.out.println(insertProduitStatement);
             insertProduitStatement.executeUpdate();
 
@@ -286,15 +292,29 @@ public class CommunicationBD {
 
         }
 
-        updateProduitStatement.setInt(1, ajout ? 1 : -1);
-        updateProduitStatement.setLong(2, codeBarre);
-        System.out.println(updateProduitStatement.toString());
-        updateProduitStatement.executeUpdate();
-
         insertCodebarreStatement.setLong(1, codeBarre);
-        insertCodebarreStatement.setBoolean(2, ajout);
         System.out.println(insertCodebarreStatement);
         insertCodebarreStatement.executeUpdate();
+
+        majQuantite(true);
+
+    }
+
+    private void majQuantite(boolean ajout) throws SQLException {
+        ResultSet result = selectCodeBarreStatement.executeQuery();
+
+        while (result.next()) {
+            long codeBarre = result.getLong(1);
+
+            updateProduitStatement.setInt(1, ajout ? 1 : -1);
+            updateProduitStatement.setLong(2, codeBarre);
+            System.out.println(updateProduitStatement.toString());
+            updateProduitStatement.executeUpdate();
+        }
+
+        updateCodeBarreStatement.setBoolean(1, ajout);
+        System.out.println(updateCodeBarreStatement);
+        updateCodeBarreStatement.executeUpdate();
 
     }
 
