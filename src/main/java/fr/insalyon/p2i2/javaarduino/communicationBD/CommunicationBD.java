@@ -194,12 +194,11 @@ public class CommunicationBD {
         // double value = Double.parseDouble(data[1]);
         // ...
 
-        String[] data = line.split(";");
-        String typePaquet = data[0];
-        String capteur = data[1];
-        String mesure = data[2];
-
         try {
+            String[] data = line.split(";");
+            String typePaquet = data[0];
+            String capteur = data[1];
+            String mesure = data[2];
 
             switch (typePaquet) {
                 case "info":
@@ -218,15 +217,19 @@ public class CommunicationBD {
                     break;
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
-            System.exit(1);
         }
     }
 
     private void handleCodebarre(String mesure) throws SQLException {
-
-        long codeBarre = Long.parseLong(mesure);
+        long codeBarre;
+        try {
+            codeBarre = Long.parseLong(mesure);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return;
+        }
 
         selectProduitStatement.setLong(1, codeBarre);
         System.out.println(selectProduitStatement.toString());
@@ -240,6 +243,11 @@ public class CommunicationBD {
             ProductResponse productResponse = foodWrapper.fetchProductByCode(String.valueOf(codeBarre));
             Product product = productResponse.getProduct();
 
+            if (!productResponse.isStatus()) {
+                System.out.println("Status: " + productResponse.getStatusVerbose());
+                return;
+            }
+
             insertProduitStatement.setLong(1, codeBarre);
             insertProduitStatement.setString(2, product.getProductName());
             insertProduitStatement.setInt(3, 1);
@@ -250,7 +258,9 @@ public class CommunicationBD {
 
             for (String categorie : categories) {
 
-                // TODO : enlever l'espace 
+                if (categorie.startsWith(" ")) {
+                    categorie = categorie.substring(1);
+                }
 
                 selectCategorieStatement.setString(1, categorie);
                 System.out.println(selectCategorieStatement);
