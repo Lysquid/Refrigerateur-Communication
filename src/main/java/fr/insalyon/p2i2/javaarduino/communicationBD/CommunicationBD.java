@@ -1,19 +1,10 @@
 package fr.insalyon.p2i2.javaarduino.communicationBD;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import pl.coderion.model.Product;
 import pl.coderion.model.ProductResponse;
@@ -28,8 +19,8 @@ public class CommunicationBD {
     private final String loginBD = "G221_A";
     private final String motdepasseBD = "G221_A";
 
-    private Connection connection = null;
-    OpenFoodFactsWrapper foodWrapper;
+    private Connection connection;
+    private OpenFoodFactsWrapper foodWrapper;
 
     private PreparedStatement insertInfoStatement;
     private PreparedStatement insertPorteStatement;
@@ -43,27 +34,22 @@ public class CommunicationBD {
     private PreparedStatement selectCodeBarreStatement;
     private PreparedStatement updateCodeBarreStatement;
 
-    private PreparedStatement selectMesuresStatement = null;
-
     public CommunicationBD() {
 
         foodWrapper = new OpenFoodFactsWrapperImpl();
 
         try {
-            // Enregistrement de la classe du driver par le driverManager
-            // Class.forName("com.mysql.jdbc.Driver");
-            // System.out.println("Driver trouvé...");
             // Création d'une connexion sur la base de donnée
-            String urlJDBC = "jdbc:mysql://" + this.serveurBD + ":" + this.portBD + "/" + this.nomBD;
+            String urlJDBC = "jdbc:mysql://" + serveurBD + ":" + portBD + "/" + nomBD;
             urlJDBC += "?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Europe/Paris";
 
             System.out.println("Connexion à " + urlJDBC);
-            this.connection = DriverManager.getConnection(urlJDBC, this.loginBD, this.motdepasseBD);
+            connection = DriverManager.getConnection(urlJDBC, loginBD, motdepasseBD);
 
             System.out.println("Connexion établie...");
 
             // Requête de test pour lister les tables existantes dans les BDs MySQL
-            PreparedStatement statement = this.connection.prepareStatement(
+            PreparedStatement statement = connection.prepareStatement(
                     "SELECT table_schema, table_name"
                             + " FROM information_schema.tables"
                             + " WHERE table_schema NOT LIKE '%_schema' AND table_schema != 'mysql'"
@@ -72,12 +58,13 @@ public class CommunicationBD {
 
             System.out.println("Liste des tables:");
             while (result.next()) {
-                System.out.println("- " + result.getString("table_schema") + "." + result.getString("table_name"));
+                if (result.getString("table_schema").contains("BD1")) {
+                    System.out.println("- " + result.getString("table_name"));
+                }
             }
 
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
-            // throw new Exception("Erreur dans la méthode connexionBD()");
             System.exit(1);
         }
 
@@ -85,7 +72,6 @@ public class CommunicationBD {
 
     public void creerRequetesParametrees() {
         try {
-            // À compléter
             insertInfoStatement = connection.prepareStatement("INSERT INTO Mesure"
                     + " VALUES (NULL, ?, ?, NOW());");
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
@@ -114,93 +100,13 @@ public class CommunicationBD {
                     + " SET ajout = ?"
                     + " WHERE ajout IS NULL;");
 
-            this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
-                    + " FROM Mesure"
-                    + " WHERE numInventaire = ?"
-                    + " AND dateMesure > ?"
-                    + " AND dateMesure < ?");
         } catch (SQLException ex) {
             ex.printStackTrace(System.err);
             System.exit(1);
         }
     }
 
-    public void lireMesures(BufferedReader input) throws Exception {
-        try {
-
-            String line;
-
-            while ((line = input.readLine()) != null) {
-                String[] valeurs = line.split(";");
-                if (valeurs.length > 1) {
-
-                    // À compléter
-                    Integer numInventaire = Integer.parseInt(valeurs[0]);
-                    Double valeur = Double.parseDouble(valeurs[1]);
-                    System.out.println("Le Capteur n°" + numInventaire + " a mesuré: " + valeur);
-
-                    ajouterMesure(numInventaire, valeur, new Date());
-                }
-            }
-
-        } catch (IOException ex) {
-            ex.printStackTrace(System.err);
-            throw new Exception("Erreur dans la méthode lireMesures()");
-        }
-
-    }
-
-    public int ajouterMesure(int numInventaire, double valeur, Date datetime) {
-        try {
-            // À compléter
-            this.insertInfoStatement.setInt(1, numInventaire);
-            this.insertInfoStatement.setDouble(2, valeur);
-            this.insertInfoStatement.setTimestamp(3, new Timestamp(datetime.getTime())); // DATETIME
-            return this.insertInfoStatement.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
-            return -1;
-        }
-    }
-
-    public void ecrireMesures(PrintWriter output, int numInventaire, Date dateDebut, Date dateFin) throws Exception {
-
-        try {
-
-            // À compléter
-            this.selectMesuresStatement.setInt(1, numInventaire);
-            this.selectMesuresStatement.setTimestamp(2, new Timestamp(dateDebut.getTime()));
-            this.selectMesuresStatement.setTimestamp(3, new Timestamp(dateFin.getTime()));
-            ResultSet result = this.selectMesuresStatement.executeQuery();
-
-            SimpleDateFormat formatDatePourCSV = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            DecimalFormat formatNombreDecimal = new DecimalFormat("0.00");
-            formatNombreDecimal.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ROOT));
-
-            while (result.next()) {
-
-                // À compléter
-
-                Integer.toString(result.getInt("numInventaire"));
-                String dateMesure = formatDatePourCSV.format(result.getTimestamp("dateMesure"));
-                String valeur = formatNombreDecimal.format(result.getDouble("valeur"));
-                output.println(Integer.toString(numInventaire) + ";"
-                        + dateMesure + ";" + valeur);
-
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
-            throw new Exception("Erreur dans la méthode ecrireMesures()");
-        }
-    }
-
     public void handleData(String line) {
-
-        // String[] data = line.split(";");
-        // int sensorid = Integer.parseInt(data[0]);
-        // double value = Double.parseDouble(data[1]);
-        // ...
 
         try {
             String[] data = line.split(";");

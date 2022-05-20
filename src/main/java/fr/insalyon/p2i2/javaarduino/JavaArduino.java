@@ -42,12 +42,6 @@ public class JavaArduino {
 
                 communicationBD.handleData(line);
 
-                // À vous de jouer ;-)
-                // Par exemple:
-                // String[] data = line.split(";");
-                // int sensorid = Integer.parseInt(data[0]);
-                // double value = Double.parseDouble(data[1]);
-                // ...
             }
 
         };
