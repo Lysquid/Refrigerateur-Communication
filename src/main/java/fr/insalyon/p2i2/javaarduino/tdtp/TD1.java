@@ -32,7 +32,7 @@ public class TD1 {
     private PreparedStatement insertMesureStatement = null;
     private PreparedStatement selectMesuresStatement = null;
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
 
         System.out.println("Début du TD1");
 

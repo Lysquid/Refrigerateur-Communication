@@ -151,7 +151,7 @@ public class ArduinoManager {
         return ArduinoUsbChannel.listVirtualComPorts(exception);
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
 
         // Objet matérialisant la console d'exécution (Affichage Écran / Lecture Clavier)
         final Console console = new Console();
