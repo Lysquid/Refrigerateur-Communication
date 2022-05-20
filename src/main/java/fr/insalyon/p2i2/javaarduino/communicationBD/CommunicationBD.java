@@ -246,9 +246,11 @@ public class CommunicationBD {
             System.out.println(insertProduitStatement);
             insertProduitStatement.executeUpdate();
 
-            String[] categories = product.getCategories().split(", ");
+            String[] categories = product.getCategories().split(",");
 
             for (String categorie : categories) {
+
+                // TODO : enlever l'espace 
 
                 selectCategorieStatement.setString(1, categorie);
                 System.out.println(selectCategorieStatement);
