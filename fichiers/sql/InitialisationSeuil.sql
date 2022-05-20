@@ -6,59 +6,52 @@ VALUES(2, 'Humidite', '%');
 
 --Création CatégorieProduits
 INSERT INTO CategorieProduit
-VALUES (1, "Waters");
+VALUES (1, "Eaux");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Milks");
+VALUES(2, "Laits");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Tomatoes");
+VALUES(3, "Tomates");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Sodas");
+VALUES(4, "Sodas");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Leaf salads");
+VALUES(5, "Salades vertes");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Eggs");
+VALUES(6, "Œufs");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Chocolates");
+VALUES(7, "Chocolats");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Mayonnaises");
+VALUES(8, "Mayonnaises");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Oysters");
+VALUES(9, "Huîtres");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Leeks");
+VALUES(10, "Poireaux");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Green beans");
+VALUES(11, "Haricots verts");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Cheeses");
+VALUES(12, "Cheeses");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Meats");
+VALUES(13, "Viandes");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Pastries");
+VALUES(14, "Pâtisseries");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Cakes");
+VALUES(15, "Gâteaux");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Puff pastry sheet");
+VALUES(16, "Pâtes feuilletées");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Fishes");
+VALUES(17, "Poissons");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Butters");
+VALUES(18, "Beurres");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Margarines");
+VALUES(19, "Margarines");
 INSERT INTO CategorieProduit
-VALUES(NULL, "Mustards");
-
-s
---Création Produits
-INSERT INTO Produit
-VALUES (3068320124827, "Eau minérale Evian", 1, 1);
-INSERT INTO Produit
-VALUES (8000500037560, "Kinder Bueno", 2, 1);
+VALUES(20, "Moutardes");
 
 --Création Seuils
 INSERT INTO Seuil 
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Milks'),
+    WHERE nomCategorieProduit = 'Laits'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -70,7 +63,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Tomatoes'),
+    WHERE nomCategorieProduit = 'Tomates'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -82,7 +75,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Tomatoes'),
+    WHERE nomCategorieProduit = 'Tomates'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Humidite'),
@@ -106,7 +99,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Leaf Salads'),
+    WHERE nomCategorieProduit = 'Salades vertes'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -118,7 +111,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Eggs'),
+    WHERE nomCategorieProduit = 'Œufs'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -130,7 +123,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Eggs'),
+    WHERE nomCategorieProduit = 'Œufs'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Humidite'),
@@ -142,7 +135,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Chocolates'),
+    WHERE nomCategorieProduit = 'Chocolats'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -166,7 +159,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Oysters'),
+    WHERE nomCategorieProduit = 'Huîtres'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -178,7 +171,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Leeks'),
+    WHERE nomCategorieProduit = 'Poireaux'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -190,7 +183,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Green Beans'),
+    WHERE nomCategorieProduit = 'Haricots verts'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -226,7 +219,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Meats'),
+    WHERE nomCategorieProduit = 'Viandes'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -238,7 +231,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Pastries'),
+    WHERE nomCategorieProduit = 'Pâtisseries'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -250,7 +243,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Cakes'),
+    WHERE nomCategorieProduit = 'Gâteaux'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -262,7 +255,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Puff pastry sheet'),
+    WHERE nomCategorieProduit = 'Pâtes feuilletées'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -274,7 +267,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Fishes'),
+    WHERE nomCategorieProduit = 'Poissons'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -286,7 +279,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Butters'),
+    WHERE nomCategorieProduit = 'Beurres'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -310,7 +303,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Mustards'),
+    WHERE nomCategorieProduit = 'Moutardes'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
@@ -322,7 +315,7 @@ INSERT INTO Seuil
 VALUES(
     (SELECT idCategorieProduit
     FROM CategorieProduit
-    WHERE nomCategorieProduit = 'Waters'),
+    WHERE nomCategorieProduit = 'Eaux'),
     (SELECT idTypeMesure
     FROM TypeMesure
     WHERE nomTypeMesure = 'Temperature'),
