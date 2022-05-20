@@ -292,7 +292,7 @@ VALUES(
         (
             SELECT idCategorieProduit
             FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Cheeses'
+            WHERE nomCategorieProduit = 'Fromages'
         ),
         (
             SELECT idTypeMesure
