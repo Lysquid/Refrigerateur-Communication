@@ -241,7 +241,7 @@ public class CommunicationBD {
             Product product = productResponse.getProduct();
 
             insertProduitStatement.setLong(1, codeBarre);
-            insertProduitStatement.setString(2, product.getGenericName());
+            insertProduitStatement.setString(2, product.getProductName());
             insertProduitStatement.setInt(3, 1);
             System.out.println(insertProduitStatement);
             insertProduitStatement.executeUpdate();
