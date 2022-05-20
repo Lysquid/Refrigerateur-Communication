@@ -6,7 +6,7 @@ import fr.insalyon.p2i2.javaarduino.communicationBD.CommunicationBD;
 import fr.insalyon.p2i2.javaarduino.usb.ArduinoManager;
 import fr.insalyon.p2i2.javaarduino.util.Console;
 
-public class TestArduino {
+public class JavaArduino {
 
     public static void main(String[] args) {
 

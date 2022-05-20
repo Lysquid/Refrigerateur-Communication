@@ -15,6 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import pl.coderion.model.Product;
+import pl.coderion.model.ProductResponse;
+import pl.coderion.service.OpenFoodFactsWrapper;
+import pl.coderion.service.impl.OpenFoodFactsWrapperImpl;
+
 public class CommunicationBD {
 
     private final String serveurBD = "fimi-bd-srv1.insa-lyon.fr";
@@ -24,16 +29,22 @@ public class CommunicationBD {
     private final String motdepasseBD = "G221_A";
 
     private Connection connection = null;
+    OpenFoodFactsWrapper foodWrapper;
 
-    private PreparedStatement insertInfoStatement = null;
-    private PreparedStatement insertPorteStatement = null;
-    private PreparedStatement insertCodebarreStatement = null;
-    private PreparedStatement updateProduitStatement = null;
-    private PreparedStatement selectProduitStatement = null;
+    private PreparedStatement insertInfoStatement;
+    private PreparedStatement insertPorteStatement;
+    private PreparedStatement insertCodebarreStatement;
+    private PreparedStatement updateProduitStatement;
+    private PreparedStatement selectProduitStatement;
+    private PreparedStatement insertAssociationStatement;
+    private PreparedStatement insertCategorieStatement;
+    private PreparedStatement selectCategorieStatement;
 
     private PreparedStatement selectMesuresStatement = null;
 
     public CommunicationBD() {
+
+        foodWrapper = new OpenFoodFactsWrapperImpl();
 
         try {
             // Enregistrement de la classe du driver par le driverManager
@@ -78,12 +89,19 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, NOW());");
             insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
                     + " VALUES (NULL, ?, ?, NOW());");
-            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
-                    + " SET quantite = quantite + ?"
-                    + " WHERE codeBarre = ?;");
             selectProduitStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
+            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
+                    + " SET quantite = quantite + ?"
+                    + " WHERE codeBarre = ?;");
+            selectCategorieStatement = connection.prepareStatement("SELECT COUNT(*) AS count"
+                    + " FROM CategorieProduit"
+                    + " WHERE nomCategorieProduit = ?;");
+            insertCategorieStatement = connection.prepareStatement("INSERT INTO CategorieProduit"
+                    + " VALUES (NULL, ?);");
+            insertAssociationStatement = connection.prepareStatement("INSERT INTO AssociationCategorie"
+                    + " VALUES (?, ?);");
 
             this.selectMesuresStatement = connection.prepareStatement("SELECT numInventaire, valeur, dateMesure"
                     + " FROM Mesure"
@@ -217,6 +235,13 @@ public class CommunicationBD {
 
         if (!produitExiste) {
             // TODO : ajouter produit avec requete OpenFoodFacts
+
+            ProductResponse productResponse = foodWrapper.fetchProductByCode(String.valueOf(codeBarre));
+
+            Product product = productResponse.getProduct();
+
+            String[] categories = product.getCategories().split(", ");
+
         }
 
         updateProduitStatement.setInt(1, ajout ? 1 : -1);

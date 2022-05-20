@@ -39,9 +39,9 @@
             <version>2.7.2</version>
         </dependency>
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20220320</version>
+            <groupId>pl.coderion</groupId>
+            <artifactId>openfoodfacts-java-wrapper</artifactId>
+            <version>0.9.3</version>
         </dependency>
     </dependencies>
 

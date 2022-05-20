@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS Seuil;
 DROP TABLE IF EXISTS CodeBarre;
+DROP TABLE IF EXISTS AssociationCategorie;
 DROP TABLE IF EXISTS Produit;
 DROP TABLE IF EXISTS CategorieProduit;
 DROP TABLE IF EXISTS Mesure;
@@ -42,15 +43,20 @@ CREATE TABLE CategorieProduit(
 CREATE TABLE Produit(
     codeBarre BIGINT(13) NOT NULL,
     nomProduit VARCHAR(20),
-    idCategorieProduit INT(8),
     quantite INT NOT NULL,
-    PRIMARY KEY (codeBarre),
-    FOREIGN KEY (idCategorieProduit) REFERENCES CategorieProduit(idCategorieProduit)
+    PRIMARY KEY (codeBarre)
+);
+CREATE TABLE AssociationCategorie(
+    codeBarre BIGINT(13) NOT NULL,
+    idCategorieProduit INT(8) NOT NULL,
+    PRIMARY KEY (codeBarre, idCategorieProduit),
+    FOREIGN KEY (idCategorieProduit) REFERENCES CategorieProduit(idCategorieProduit),
+    FOREIGN KEY (codeBarre) REFERENCES Produit(codeBarre)
 );
 CREATE TABLE CodeBarre(
     idCodeBarre INT(8) AUTO_INCREMENT,
     codeBarre BIGINT(13) NOT NULL,
-    ajout BOOLEAN NOT NULL,
+    ajout BOOLEAN,
     dateCodeBarre DATETIME NOT NULL,
     PRIMARY KEY (idCodeBarre),
     FOREIGN KEY (codeBarre) REFERENCES Produit(codeBarre)
