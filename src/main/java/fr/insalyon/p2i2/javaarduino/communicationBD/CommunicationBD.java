@@ -76,7 +76,7 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, ?, NOW());");
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
-            selectProduitStatement = connection.prepareStatement("SELECT codebarre"
+            selectProduitStatement = connection.prepareStatement("SELECT codeBarre"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
             insertProduitStatement = connection.prepareStatement("INSERT INTO Produit"
