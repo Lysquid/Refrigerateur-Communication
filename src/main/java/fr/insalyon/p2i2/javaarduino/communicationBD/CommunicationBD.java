@@ -76,16 +76,11 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?, ?, NOW());");
             insertPorteStatement = connection.prepareStatement("INSERT INTO OuverturePorte"
                     + " VALUES (NULL, ?, NOW());");
-            insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
-                    + " VALUES (NULL, ?, NULL, NOW());");
-            selectProduitStatement = connection.prepareStatement("SELECT *"
+            selectProduitStatement = connection.prepareStatement("SELECT codebarre"
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
             insertProduitStatement = connection.prepareStatement("INSERT INTO Produit"
                     + " VALUES (?, ?, ?);");
-            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
-                    + " SET quantite = quantite + ?"
-                    + " WHERE codeBarre = ?;");
             selectCategorieStatement = connection.prepareStatement("SELECT idCategorieProduit"
                     + " FROM CategorieProduit"
                     + " WHERE nomCategorieProduit = ?;");
@@ -93,9 +88,14 @@ public class CommunicationBD {
                     + " VALUES (NULL, ?);");
             insertAssociationStatement = connection.prepareStatement("INSERT INTO AssociationCategorie"
                     + " VALUES (?, ?);");
+            insertCodebarreStatement = connection.prepareStatement("INSERT INTO CodeBarre"
+                    + " VALUES (NULL, ?, NULL, NOW());");
             selectCodeBarreStatement = connection.prepareStatement("SELECT codeBarre"
                     + " FROM CodeBarre"
                     + " WHERE ajout IS NULL;");
+            updateProduitStatement = connection.prepareStatement("UPDATE Produit"
+                    + " SET quantite = quantite + ?"
+                    + " WHERE codeBarre = ?;");
             updateCodeBarreStatement = connection.prepareStatement("UPDATE CodeBarre"
                     + " SET ajout = ?"
                     + " WHERE ajout IS NULL;");
@@ -238,12 +238,9 @@ public class CommunicationBD {
     }
 
     private void handleInfo(String capteur, String mesure) throws SQLException {
-
         insertInfoStatement.setInt(1, Integer.valueOf(capteur));
         insertInfoStatement.setDouble(2, Double.valueOf(mesure));
         System.out.println(insertInfoStatement);
-
         insertInfoStatement.executeUpdate();
-
     }
 }
