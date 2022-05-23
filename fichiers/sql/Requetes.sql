@@ -64,8 +64,6 @@ AND dateCodeBarre >= ?
 AND dateCodeBarre <= ?
 AND ajout = ?;
 
---Arrêt des tests ici
-
 -- Historique complet des flux du frigo
 
 SELECT nomProduit, dateCodeBarre, ajout
@@ -73,11 +71,11 @@ FROM CodeBarre, Produit
 WHERE Produit.codeBarre = CodeBarre.codeBarre
 AND dateCodeBarre >= ?
 AND dateCodeBarre <= ?
-ORDER BY dateCodeBarre;
+ORDER BY dateCodeBarre ASC;
 
 -- Moyenne sur un certain interval de temps, d'un produit retiré ou ajouté
 
-SELECT nomProduit, (Count(nomProduit)*quantite)/(DATEDIFF(?,?)/?) as moyenneNombreProduit -- avec ? le nombre de jour jour de jour de la moyenne que tu veux faire
+SELECT nomProduit, (Count(nomProduit)*quantite)/(DATEDIFF(?,?)/?) as moyenneNombreProduit -- avec ? au dénominateur le nombre de jour de la moyenne que tu veux faire
 FROM Produit, CodeBarre
 WHERE Produit.codeBarre = CodeBarre.codeBarre
 AND dateCodeBarre >= ?
@@ -87,10 +85,11 @@ GROUP BY nomProduit;
 
 -- Moyenne sur un certain interval de temps d'un type de produit retiré ou ajouté
 
-SELECT nomCategorieProduit, (Count(nomProduit)*quantite)/(DATEDIFF(?,?)/?) as moyenneCategorieProduit -- avec le ? seul, le nombre de jour jour de jour de la moyenne que tu veux faire
-FROM Produit, CodeBarre, CategorieProduit
-WHERE Produit.codeBarre = CodeBarre.codeBarre
-AND Produit.idCategorieProduit = CategorieProduit.idCategorieProduit
+SELECT nomCategorieProduit, (Count(nomProduit))/(DATEDIFF(?,?)/?) as moyenneCategorieProduit -- avec le ? seul, le nombre de jour jour de jour de la moyenne que tu veux faire
+FROM Produit, CodeBarre, CategorieProduit, AssociationCategorie
+WHERE Produit.codeBarre = AssociationCategorie.codeBarre
+AND Produit.codeBarre = CodeBarre.codeBarre
+AND AssociationCategorie.idCategorieProduit = CategorieProduit.idCategorieProduit
 AND dateCodeBarre >= ?
 AND dateCodeBarre <= ?
 AND ajout = ?
@@ -110,5 +109,3 @@ SELECT porteOuverte, dateOuverture
 FROM OuverturePorte
 WHERE dateOuverture >= ?
 AND dateOuverture <= ?;
-
--- Pire requete à faire : ajout d'un seuil
