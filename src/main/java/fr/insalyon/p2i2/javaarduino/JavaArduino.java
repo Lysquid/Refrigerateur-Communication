@@ -1,6 +1,9 @@
 package fr.insalyon.p2i2.javaarduino;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import fr.insalyon.p2i2.javaarduino.communicationBD.CommunicationBD;
 import fr.insalyon.p2i2.javaarduino.usb.ArduinoManager;
@@ -9,6 +12,10 @@ import fr.insalyon.p2i2.javaarduino.util.Console;
 public class JavaArduino {
 
     public static void main(String[] args) {
+
+        CommunicationBD communicationBD = new CommunicationBD();
+        communicationBD.creerRequetesParametrees();
+        insererCodebarres(communicationBD);
 
         // Objet matérialisant la console d'exécution (Affichage Écran / Lecture
         // Clavier)
@@ -27,9 +34,6 @@ public class JavaArduino {
         String myPort = ArduinoManager.searchVirtualComPort("COM0", "/dev/tty.usbserial-FTUS8LMO", "<autre-exception>");
 
         console.log("CONNEXION au port " + myPort);
-
-        CommunicationBD communicationBD = new CommunicationBD();
-        communicationBD.creerRequetesParametrees();
 
         ArduinoManager arduino = new ArduinoManager(myPort) {
             @Override
@@ -85,5 +89,24 @@ public class JavaArduino {
             console.log(ex);
         }
 
+    }
+
+    private static void insererCodebarres(CommunicationBD communicationBD) {
+        try {
+            FileInputStream file;
+            file = new FileInputStream("./fichiers/input/codebarres.txt");
+            BufferedReader input = new BufferedReader(new InputStreamReader(file));
+
+            String line;
+            while ((line = input.readLine()) != null) {
+                String paquet = "codebarre;0;" + line;
+                System.out.println(paquet);
+                communicationBD.handleData(paquet);
+            }
+
+            input.close();
+        } catch (NumberFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
