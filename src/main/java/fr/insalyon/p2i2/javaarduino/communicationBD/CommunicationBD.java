@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.validation.constraints.Null;
+
+import pl.coderion.model.Nutriments;
 import pl.coderion.model.Product;
 import pl.coderion.model.ProductResponse;
 import pl.coderion.service.OpenFoodFactsWrapper;
@@ -80,7 +83,7 @@ public class CommunicationBD {
                     + " FROM Produit"
                     + " WHERE codeBarre = ?;");
             insertProduitStatement = connection.prepareStatement("INSERT INTO Produit"
-                    + " VALUES (?, ?, ?);");
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             selectCategorieStatement = connection.prepareStatement("SELECT idCategorieProduit"
                     + " FROM CategorieProduit"
                     + " WHERE nomCategorieProduit = ?;");
@@ -160,9 +163,33 @@ public class CommunicationBD {
                 return;
             }
 
+            Nutriments nutriments = product.getNutriments();
+
             insertProduitStatement.setLong(1, codeBarre);
-            insertProduitStatement.setString(2, product.getProductName());
-            insertProduitStatement.setInt(3, 0);
+            insertProduitStatement.setInt(2, 0);
+            insertProduitStatement.setString(3, product.getProductName());
+            insertProduitStatement.setString(4, product.getGenericName());
+            insertProduitStatement.setString(5, product.getBrands());
+            insertProduitStatement.setString(6, product.getImageSmallUrl());
+            insertProduitStatement.setString(7, product.getNutritionGrades());
+            try {
+                insertProduitStatement.setInt(8, Integer.valueOf(product.getNovaGroup()));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            // TODO : Parser le grammage / litrage
+            // insertProduitStatement.setInt(9, product.getQuantity());
+            insertProduitStatement.setNull(9, 0);
+            insertProduitStatement.setInt(10, nutriments.getEnergyKj());
+            insertProduitStatement.setInt(11, nutriments.getEnergyKcal());
+            insertProduitStatement.setFloat(12, nutriments.getFat());
+            insertProduitStatement.setFloat(13, nutriments.getSaturatedFat());
+            insertProduitStatement.setFloat(14, nutriments.getCarbohydrates());
+            insertProduitStatement.setFloat(15, nutriments.getSugars());
+            insertProduitStatement.setFloat(16, nutriments.getFiber());
+            insertProduitStatement.setFloat(17, nutriments.getProteins());
+            insertProduitStatement.setFloat(18, nutriments.getSalt());
+
             System.out.println(insertProduitStatement);
             insertProduitStatement.executeUpdate();
 

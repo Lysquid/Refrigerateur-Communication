@@ -42,8 +42,23 @@ CREATE TABLE CategorieProduit(
 );
 CREATE TABLE Produit(
     codeBarre BIGINT(13) NOT NULL,
-    nomProduit VARCHAR(100),
     quantite INT NOT NULL,
+    nomProduit VARCHAR(100),
+    denomination VARCHAR(300),
+    marque VARCHAR(50),
+    imageURL VARCHAR(100),
+    nutriscore VARCHAR(8),
+    novascore INT(8),
+    masse INT(8),
+    energieKcal INT(8),
+    energieKj INT(8),
+    matieresGrasses FLOAT(8),
+    acidesGrasSatures FLOAT(8),
+    glucides FLOAT(8),
+    sucres FLOAT(8),
+    fibres FLOAT(8),
+    proteines FLOAT(8),
+    sel FLOAT(8),
     PRIMARY KEY (codeBarre)
 );
 CREATE TABLE AssociationCategorie(
