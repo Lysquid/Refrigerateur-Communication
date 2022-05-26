@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.validation.constraints.Null;
-
 import pl.coderion.model.Nutriments;
 import pl.coderion.model.Product;
 import pl.coderion.model.ProductResponse;
