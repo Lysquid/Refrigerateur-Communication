@@ -147,7 +147,7 @@ public class CommunicationBD {
         }
 
         selectProduitStatement.setLong(1, codeBarre);
-        System.out.println(selectProduitStatement.toString());
+        System.out.println(selectProduitStatement);
         ResultSet resultProduit = selectProduitStatement.executeQuery();
         boolean produitExiste = resultProduit.next();
 
@@ -173,11 +173,11 @@ public class CommunicationBD {
             try {
                 insertProduitStatement.setInt(8, Integer.valueOf(product.getNovaGroup()));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
             }
-            // TODO : Parser le grammage / litrage
-            // insertProduitStatement.setInt(9, product.getQuantity());
-            insertProduitStatement.setNull(9, 0);
+            try {
+                insertProduitStatement.setInt(9, Integer.valueOf(product.getProductQuantity()));
+            } catch (NumberFormatException e) {
+            }
             insertProduitStatement.setInt(10, nutriments.getEnergyKj());
             insertProduitStatement.setInt(11, nutriments.getEnergyKcal());
             insertProduitStatement.setFloat(12, nutriments.getFat());
