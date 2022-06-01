@@ -232,11 +232,9 @@ public class CommunicationBD {
         System.out.println(insertCodebarreStatement);
         insertCodebarreStatement.executeUpdate();
 
-        majQuantite(true);
-
     }
 
-    private void majQuantite(boolean ajout) throws SQLException {
+    public void majQuantite(boolean ajout) throws SQLException {
         ResultSet result = selectCodeBarreStatement.executeQuery();
 
         while (result.next()) {
@@ -267,5 +265,12 @@ public class CommunicationBD {
         insertInfoStatement.setDouble(2, Double.valueOf(mesure));
         System.out.println(insertInfoStatement);
         insertInfoStatement.executeUpdate();
+    }
+
+    public boolean isProduitEmpty() throws SQLException {
+        String query = "SELECT * FROM Produit";
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet result = statement.executeQuery();
+        return result.next();
     }
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 import fr.insalyon.p2i2.javaarduino.communicationBD.CommunicationBD;
 import fr.insalyon.p2i2.javaarduino.usb.ArduinoManager;
@@ -93,19 +94,39 @@ public class JavaArduino {
 
     private static void insererCodebarres(CommunicationBD communicationBD) {
         try {
-            FileInputStream file;
-            file = new FileInputStream("./fichiers/input/codebarres.txt");
-            BufferedReader input = new BufferedReader(new InputStreamReader(file));
-
-            String line;
-            while ((line = input.readLine()) != null) {
-                String paquet = "codebarre;0;" + line;
-                System.out.println(paquet);
-                communicationBD.handleData(paquet);
+            if (communicationBD.isProduitEmpty()) {
+                return;
             }
+            FileInputStream file;
+            String line;
+            BufferedReader input;
 
+            // Ajout
+            file = new FileInputStream("./fichiers/input/codebarresAjout.txt");
+            input = new BufferedReader(new InputStreamReader(file));
+            while ((line = input.readLine()) != null) {
+                if (line.length() > 0) {
+                    String paquet = "codebarre;0;" + line;
+                    System.out.println(paquet);
+                    communicationBD.handleData(paquet);
+                }
+            }
             input.close();
-        } catch (NumberFormatException | IOException e) {
+            communicationBD.majQuantite(true);
+
+            file = new FileInputStream("./fichiers/input/codebarresRetrait.txt");
+            input = new BufferedReader(new InputStreamReader(file));
+            while ((line = input.readLine()) != null) {
+                if (line.length() > 0) {
+                    String paquet = "codebarre;0;" + line;
+                    System.out.println(paquet);
+                    communicationBD.handleData(paquet);
+                }
+            }
+            input.close();
+            communicationBD.majQuantite(false);
+
+        } catch (NumberFormatException | IOException | SQLException e) {
             e.printStackTrace();
         }
     }
