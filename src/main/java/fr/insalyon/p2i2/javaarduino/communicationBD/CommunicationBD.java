@@ -38,7 +38,7 @@ public class CommunicationBD {
     private static final double TEMPERATURE_HAUTE = 22.0;
     private static final double TENSION_HAUTE = 4.57;
     private static final double TEMPERATURE_BASSE = 4;
-    private static final double TENSION_BASSE = 3.3;
+    private static final double TENSION_BASSE = 3.0;
     private static final double COEFF_DIRECTEUR = (TEMPERATURE_HAUTE - TEMPERATURE_BASSE)
             / (TENSION_HAUTE - TENSION_BASSE);
     private static final double ORDONNEE_ORIGINE = TEMPERATURE_BASSE - COEFF_DIRECTEUR * TENSION_BASSE;
