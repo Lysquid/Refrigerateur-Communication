@@ -105,7 +105,7 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Temperature'
         ),
-        1,
+        NULL,
         4
     );
 INSERT INTO Seuil
@@ -121,7 +121,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        2
+        15
     );
 INSERT INTO Seuil
 VALUES(
@@ -150,8 +150,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Temperature'
         ),
-        3,
-        7
+        0,
+        25
     );
 INSERT INTO Seuil
 VALUES(
@@ -165,8 +165,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Temperature'
         ),
-        1,
-        4
+        0,
+        5
     );
 INSERT INTO Seuil
 VALUES(
@@ -195,38 +195,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Humidite'
         ),
-        35,
-        45
-    );
-INSERT INTO Seuil
-VALUES(
-        (
-            SELECT idCategorieProduit
-            FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Chocolats'
-        ),
-        (
-            SELECT idTypeMesure
-            FROM TypeMesure
-            WHERE nomTypeMesure = 'Temperature'
-        ),
-        12,
-        22
-    );
-INSERT INTO Seuil
-VALUES(
-        (
-            SELECT idCategorieProduit
-            FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Mayonnaises'
-        ),
-        (
-            SELECT idTypeMesure
-            FROM TypeMesure
-            WHERE nomTypeMesure = 'Temperature'
-        ),
-        0,
-        4
+        40,
+        80
     );
 INSERT INTO Seuil
 VALUES(
@@ -256,7 +226,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        6
+        10
     );
 INSERT INTO Seuil
 VALUES(
@@ -271,7 +241,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        6
+        10
     );
 INSERT INTO Seuil
 VALUES(
@@ -285,8 +255,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Temperature'
         ),
-        6,
-        8
+        NULL,
+        15
     );
 INSERT INTO Seuil
 VALUES(
@@ -300,8 +270,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Humidite'
         ),
-        85,
-        95
+        35,
+        60
     );
 INSERT INTO Seuil
 VALUES(
@@ -316,7 +286,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        4
+        8
     );
 INSERT INTO Seuil
 VALUES(
@@ -331,37 +301,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         -1,
-        5
-    );
-INSERT INTO Seuil
-VALUES(
-        (
-            SELECT idCategorieProduit
-            FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Gâteaux'
-        ),
-        (
-            SELECT idTypeMesure
-            FROM TypeMesure
-            WHERE nomTypeMesure = 'Temperature'
-        ),
-        -1,
-        7
-    );
-INSERT INTO Seuil
-VALUES(
-        (
-            SELECT idCategorieProduit
-            FROM CategorieProduit
-            WHERE nomCategorieProduit = 'Pâtes feuilletées'
-        ),
-        (
-            SELECT idTypeMesure
-            FROM TypeMesure
-            WHERE nomTypeMesure = 'Temperature'
-        ),
-        4,
-        6
+        15
     );
 INSERT INTO Seuil
 VALUES(
@@ -391,7 +331,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        6
+        8
     );
 INSERT INTO Seuil
 VALUES(
@@ -406,7 +346,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        6
+        8
     );
 INSERT INTO Seuil
 VALUES(
@@ -420,8 +360,8 @@ VALUES(
             FROM TypeMesure
             WHERE nomTypeMesure = 'Temperature'
         ),
-        2,
-        7
+        0,
+        20
     );
 INSERT INTO Seuil
 VALUES(
