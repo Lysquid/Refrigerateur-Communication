@@ -101,20 +101,21 @@ public class JavaArduino {
             String line;
             BufferedReader input;
 
-            // Ajout
-            file = new FileInputStream("./fichiers/input/codebarresAjout.txt");
+            // Ajout codebarres
+            file = new FileInputStream("./fichiers/input/codebarres.txt");
             input = new BufferedReader(new InputStreamReader(file));
             while ((line = input.readLine()) != null) {
                 if (line.length() > 0) {
                     String paquet = "codebarre;0;" + line;
                     System.out.println(paquet);
                     communicationBD.handleData(paquet);
+                    communicationBD.handleData(paquet);
                 }
             }
-            input.close();
             communicationBD.majQuantite(true);
+            input.close();
 
-            file = new FileInputStream("./fichiers/input/codebarresRetrait.txt");
+            file = new FileInputStream("./fichiers/input/codebarres.txt");
             input = new BufferedReader(new InputStreamReader(file));
             while ((line = input.readLine()) != null) {
                 if (line.length() > 0) {
@@ -123,11 +124,12 @@ public class JavaArduino {
                     communicationBD.handleData(paquet);
                 }
             }
-            input.close();
             communicationBD.majQuantite(false);
+            input.close();
 
         } catch (NumberFormatException | IOException | SQLException e) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
 }

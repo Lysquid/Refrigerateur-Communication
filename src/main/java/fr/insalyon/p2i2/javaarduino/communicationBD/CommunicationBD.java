@@ -38,7 +38,7 @@ public class CommunicationBD {
     private static final double TEMPERATURE_HAUTE = 22.0;
     private static final double TENSION_HAUTE = 4.57;
     private static final double TEMPERATURE_BASSE = 4;
-    private static final double TENSION_BASSE = 3.0;
+    private static final double TENSION_BASSE = 2.95;
     private static final double COEFF_DIRECTEUR = (TEMPERATURE_HAUTE - TEMPERATURE_BASSE)
             / (TENSION_HAUTE - TENSION_BASSE);
     private static final double ORDONNEE_ORIGINE = TEMPERATURE_BASSE - COEFF_DIRECTEUR * TENSION_BASSE;
@@ -186,8 +186,8 @@ public class CommunicationBD {
                 insertProduitStatement.setInt(9, Integer.valueOf(product.getProductQuantity()));
             } catch (NumberFormatException e) {
             }
-            insertProduitStatement.setInt(10, nutriments.getEnergyKj());
-            insertProduitStatement.setInt(11, nutriments.getEnergyKcal());
+            insertProduitStatement.setInt(10, nutriments.getEnergyKcal());
+            insertProduitStatement.setInt(11, nutriments.getEnergyKj());
             insertProduitStatement.setFloat(12, nutriments.getFat());
             insertProduitStatement.setFloat(13, nutriments.getSaturatedFat());
             insertProduitStatement.setFloat(14, nutriments.getCarbohydrates());
