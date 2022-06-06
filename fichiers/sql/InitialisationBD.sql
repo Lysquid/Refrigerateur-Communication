@@ -136,7 +136,7 @@ VALUES(
             WHERE nomTypeMesure = 'Humidite'
         ),
         5,
-        8
+        85
     );
 INSERT INTO Seuil
 VALUES(
