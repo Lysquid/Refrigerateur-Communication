@@ -16,7 +16,7 @@ public class CommunicationBD {
 
     private final String serveurBD = "fimi-bd-srv1.insa-lyon.fr";
     private final String portBD = "3306";
-    private final String nomBD = "G221_A_BD1";
+    private final String nomBD = "G221_A_BD2";
     private final String loginBD = "G221_A";
     private final String motdepasseBD = "G221_A";
 
