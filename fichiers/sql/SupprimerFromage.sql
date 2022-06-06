@@ -1,3 +1,0 @@
-DELETE FROM CodeBarre WHERE codeBarre = 3123930710737;
-DELETE FROM AssociationCategorie WHERE codeBarre = 3123930710737;
-DELETE FROM Produit WHERE codeBarre = 3123930710737;
