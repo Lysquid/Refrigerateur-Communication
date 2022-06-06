@@ -35,6 +35,14 @@ public class CommunicationBD {
     private PreparedStatement selectCodeBarreStatement;
     private PreparedStatement updateCodeBarreStatement;
 
+    private static final double TEMPERATURE_HAUTE = 22.0;
+    private static final double TENSION_HAUTE = 4.57;
+    private static final double TEMPERATURE_BASSE = 4;
+    private static final double TENSION_BASSE = 2.95;
+    private static final double COEFF_DIRECTEUR = (TEMPERATURE_HAUTE - TEMPERATURE_BASSE)
+            / (TENSION_HAUTE - TENSION_BASSE);
+    private static final double ORDONNEE_ORIGINE = TEMPERATURE_BASSE - COEFF_DIRECTEUR * TENSION_BASSE;
+
     public CommunicationBD() {
 
         foodWrapper = new OpenFoodFactsWrapperImpl();
@@ -178,8 +186,8 @@ public class CommunicationBD {
                 insertProduitStatement.setInt(9, Integer.valueOf(product.getProductQuantity()));
             } catch (NumberFormatException e) {
             }
-            insertProduitStatement.setInt(10, nutriments.getEnergyKj());
-            insertProduitStatement.setInt(11, nutriments.getEnergyKcal());
+            insertProduitStatement.setInt(10, nutriments.getEnergyKcal());
+            insertProduitStatement.setInt(11, nutriments.getEnergyKj());
             insertProduitStatement.setFloat(12, nutriments.getFat());
             insertProduitStatement.setFloat(13, nutriments.getSaturatedFat());
             insertProduitStatement.setFloat(14, nutriments.getCarbohydrates());
@@ -260,11 +268,23 @@ public class CommunicationBD {
 
     }
 
-    private void handleInfo(String capteur, String mesure) throws SQLException {
-        insertInfoStatement.setInt(1, Integer.valueOf(capteur));
-        insertInfoStatement.setDouble(2, Double.valueOf(mesure));
+    private void handleInfo(String capteurStr, String mesureStr) throws SQLException {
+        int capteur = Integer.valueOf(capteurStr);
+        double mesure = Double.valueOf(mesureStr);
+        if (capteur == 1) {
+            mesure = calculTemperature(mesure);
+        }
+        insertInfoStatement.setInt(1, capteur);
+        insertInfoStatement.setDouble(2, mesure);
         System.out.println(insertInfoStatement);
         insertInfoStatement.executeUpdate();
+    }
+
+    private double calculTemperature(double tension) {
+        double mesure = COEFF_DIRECTEUR * tension + ORDONNEE_ORIGINE;
+        mesure = Math.round(mesure * 100) / 100d;
+        System.out.println("Conversion température : " + tension + "V -> " + mesure + "°C");
+        return mesure;
     }
 
     public boolean isProduitEmpty() throws SQLException {
