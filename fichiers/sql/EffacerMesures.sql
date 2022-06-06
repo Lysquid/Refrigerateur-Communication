@@ -1,1 +1,2 @@
+SELECT COUNT(*) FROM Mesure;
 DELETE FROM Mesure;
