@@ -151,7 +151,7 @@ VALUES(
             WHERE nomTypeMesure = 'Temperature'
         ),
         0,
-        25
+        13
     );
 INSERT INTO Seuil
 VALUES(
